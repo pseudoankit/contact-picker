@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_5"
+    android:paddingEnd="@dimen/dimen_5">
+
+    <ImageView
+        android:id="@+id/ivContact"
+        android:layout_width="@dimen/dimen_contact_image_size"
+        android:layout_height="@dimen/dimen_contact_image_size"
+        android:src="@drawable/ic_user_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="@dimen/dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_10"
+        android:textColor="#684C4C"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tvPhoneNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivContact"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Ankit" />
+
+    <TextView
+        android:id="@+id/tvPhoneNumber"
+        android:layout_width="@dimen/dimen_0"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        tools:text="9155300000" />
+</androidx.constraintlayout.widget.ConstraintLayout>
