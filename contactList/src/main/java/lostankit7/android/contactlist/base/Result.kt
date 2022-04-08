@@ -1,4 +1,4 @@
-package lostankit7.android.contactlist.model
+package lostankit7.android.contactlist.base
 
 sealed class Result<T> {
     data class Success<T>(val data: T) : Result<T>()

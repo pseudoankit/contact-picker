@@ -8,13 +8,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import lostankit7.android.contactlist.model.Contact
-import lostankit7.android.contactlist.model.Result
+import lostankit7.android.contactlist.base.Result
+import lostankit7.android.contactlist.util.get
 
 class ContactsViewModel : ViewModel() {
 
     private val _contactsLiveData: MutableLiveData<Result<List<Contact>>> = MutableLiveData()
     val contactsLiveData: LiveData<Result<List<Contact>>> = _contactsLiveData
-
 
     fun fetchContactList(contentResolver: ContentResolver) {
         _contactsLiveData.value = Result.Loading()
@@ -34,8 +34,8 @@ class ContactsViewModel : ViewModel() {
         }
 
         while (cursor.moveToNext()) {
-            val id = cursor.get(ContactsContract.Contacts._ID)
-            val name = cursor.get(ContactsContract.Contacts.DISPLAY_NAME)
+            val id = cursor get ContactsContract.Contacts._ID
+            val name = cursor get ContactsContract.Contacts.DISPLAY_NAME
             val phoneCursor = contentResolver.query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
@@ -47,7 +47,7 @@ class ContactsViewModel : ViewModel() {
                 continue
             }
 
-            val number = phoneCursor.get(ContactsContract.CommonDataKinds.Phone.NUMBER)
+            val number = phoneCursor get ContactsContract.CommonDataKinds.Phone.NUMBER
             if (name != null && number != null) {
                 val contact = Contact(name, number)
                 list.add(contact)
@@ -58,8 +58,5 @@ class ContactsViewModel : ViewModel() {
         _contactsLiveData.value = Result.Success(list)
     }
 
-    @SuppressLint("Range")
-    fun Cursor.get(columnName: String): String? {
-        return getString(getColumnIndex(columnName))
-    }
+
 }

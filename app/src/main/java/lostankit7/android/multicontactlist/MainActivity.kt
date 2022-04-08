@@ -22,8 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = ContactsListView(this)
-        setContentView(view)
+        setContentView(R.layout.activity_main)
 
         checkPermission()
     }
