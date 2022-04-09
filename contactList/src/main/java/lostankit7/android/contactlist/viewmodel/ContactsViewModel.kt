@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import lostankit7.android.contactlist.base.Result
-import lostankit7.android.contactlist.model.Contact
+import lostankit7.android.contactlist.entity.Contact
 import lostankit7.android.contactlist.util.get
 
 class ContactsViewModel : ViewModel() {

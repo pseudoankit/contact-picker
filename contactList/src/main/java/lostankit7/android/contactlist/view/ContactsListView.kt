@@ -9,9 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import lostankit7.android.contactlist.R
 import lostankit7.android.contactlist.adapter.ContactsAdapter
-import lostankit7.android.contactlist.model.Contact
 import lostankit7.android.contactlist.base.Result
-import lostankit7.android.contactlist.factory.ItemTypeFactoryImp
+import lostankit7.android.contactlist.entity.Contact
 import lostankit7.android.contactlist.util.PermissionUtils
 import lostankit7.android.contactlist.viewmodel.ContactsViewModel
 
@@ -22,9 +21,7 @@ class ContactsListView @JvmOverloads constructor(
     private val viewModel by lazy { ViewModelProvider(context as AppCompatActivity)[ContactsViewModel::class.java] }
     private lateinit var observer: Observer<Result<List<Contact>>>
 
-    private val recyclerView: RecyclerView by lazy(LazyThreadSafetyMode.NONE) { findViewById(R.id.rv_contacts) }
-
-    private val adapter = ContactsAdapter(ItemTypeFactoryImp())
+    private val adapter = ContactsAdapter()
 
     init {
         inflate(context, R.layout.contact_list_view, this)
@@ -55,7 +52,7 @@ class ContactsListView @JvmOverloads constructor(
     }
 
     private fun setUpView() {
-        recyclerView.adapter = adapter
+        findViewById<RecyclerView>(R.id.rv_contacts).adapter = adapter
     }
 
     override fun onDetachedFromWindow() {

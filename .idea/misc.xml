@@ -5,7 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="contactList/src/main/res/layout/activity_main.xml" value="0.29791666666666666" />
-        <entry key="contactList/src/main/res/layout/contact_list_view.xml" value="0.29791666666666666" />
+        <entry key="contactList/src/main/res/layout/contact_list_view.xml" value="0.25" />
         <entry key="contactList/src/main/res/layout/empty_contact_list.xml" value="0.29791666666666666" />
         <entry key="contactList/src/main/res/layout/item_rv_contact.xml" value="0.375" />
         <entry key="contactList/src/main/res/layout/item_rv_error_state.xml" value="0.29791666666666666" />
