@@ -12,13 +12,15 @@ import lostankit7.android.contactlist.R
 import lostankit7.android.contactlist.entity.Contact
 
 class ContactsAdapter(
-    private val contactSelectedListener: (Contact, Int) -> Unit,
+    private val contactSelectedListener: (Contact) -> Unit,
     private val list: MutableList<Contact> = mutableListOf(),
     @LayoutRes private val layoutId: Int = R.layout.item_rv_contact,
 ) : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
 
-    private val _selectedContacts = mutableSetOf<Contact>()
-    val selectedContacts = _selectedContacts.toList()
+    val selectedContacts get() = list.filter { it.isSelected }
+
+    var selectedContactsCount = 0
+        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         return ContactViewHolder(
@@ -32,6 +34,24 @@ class ContactsAdapter(
 
     override fun getItemCount() = list.size
 
+    fun unSelectAll() {
+        if (selectedContactsCount == 0) return
+        selectedContactsCount = 0
+        list.forEach {
+            it.isSelected = false
+        }
+        notifyItemRangeChanged(0, list.size)
+    }
+
+    fun selectAll() {
+        if (selectedContactsCount == list.size) return
+        selectedContactsCount = list.size
+        list.forEach {
+            it.isSelected = true
+        }
+        notifyItemRangeChanged(0, list.size)
+    }
+
     fun addItems(items: List<Contact>) {
         this.list.clear()
         list.addAll(items)
@@ -42,42 +62,42 @@ class ContactsAdapter(
         private val view: View,
     ) : RecyclerView.ViewHolder(view) {
 
-        private val image: ImageView = view.findViewById(R.id.ivContact)
-        private val name: TextView = view.findViewById(R.id.tvName)
-        private val phoneNumber: TextView = view.findViewById(R.id.tvPhoneNumber)
+        private val ivProfile: ImageView = view.findViewById(R.id.ivContact)
+        private val tvName: TextView = view.findViewById(R.id.tvName)
+        private val tvPhoneNumber: TextView = view.findViewById(R.id.tvPhoneNumber)
 
-        fun bind(contact: Contact) {
-            name.text = contact.name
-            phoneNumber.text = contact.number
-            contact.image?.let { ContextCompat.getDrawable(image.context, it) }
+        fun bind(contact: Contact) = with(contact) {
+            tvName.text = name
+            tvPhoneNumber.text = number
+            ivProfile.setImageDrawable(
+                ContextCompat.getDrawable(
+                    ivProfile.context,
+                    if (isSelected) R.drawable.ic_selected else image
+                )
+            )
 
-            image.setOnClickListener { itemClicked(contact) }
+            ivProfile.setOnClickListener { itemClicked(contact) }
             view.setOnLongClickListener {
                 itemClicked(contact)
                 true
             }
+            //todo enable and disable long click listener
         }
 
         private fun itemClicked(contact: Contact) {
             contact.isSelected = !contact.isSelected
             if (contact.isSelected) {
-                image.setImageDrawable(
+                ivProfile.setImageDrawable(
                     ContextCompat.getDrawable(view.context, R.drawable.ic_selected)
                 )
-                _selectedContacts.add(contact)
+                selectedContactsCount++
             } else {
-                image.setImageDrawable(
+                ivProfile.setImageDrawable(
                     ContextCompat.getDrawable(view.context, R.drawable.ic_user_circle)
                 )
-                _selectedContacts.remove(contact)
+                selectedContactsCount--
             }
-            contactSelectedListener.invoke(contact, _selectedContacts.size)
-
-            if (_selectedContacts.isEmpty()) {
-
-            } else {
-
-            }
+            contactSelectedListener.invoke(contact)
         }
     }
 }

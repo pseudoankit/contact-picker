@@ -2,4 +2,5 @@
     <string name="error_failed_to_load_contact">Oops! Failed to load contact</string>
     <string name="error_permission_not_found">Kindly grant permission to read contact</string>
     <string name="error_no_contacts_found">No contacts found in your phone</string>
+    <string name="text_selected_contacts">%d / %d contacts selected</string>
 </resources>
