@@ -1,6 +1,8 @@
 # Getting Started
 This repository contains a custom view, in which device contact list is displayed
 
+![multi-select-tutorial](https://user-images.githubusercontent.com/54987308/162586270-95d5d362-fad6-40cb-ad65-28b20a9eac7c.gif)
+
 # Implementation
 Go to Settings.gradle, inside repositories block -> <br/>
 ```
