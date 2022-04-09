@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="contactList/src/main/res/drawable/ic_selected.xml" value="0.262037037037037" />
+        <entry key="contactList/src/main/res/drawable/ic_user_circle.xml" value="0.262037037037037" />
         <entry key="contactList/src/main/res/layout/activity_main.xml" value="0.29791666666666666" />
         <entry key="contactList/src/main/res/layout/contact_list_view.xml" value="0.25" />
         <entry key="contactList/src/main/res/layout/empty_contact_list.xml" value="0.29791666666666666" />

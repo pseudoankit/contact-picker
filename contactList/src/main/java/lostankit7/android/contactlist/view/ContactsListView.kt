@@ -28,13 +28,21 @@ class ContactsListView @JvmOverloads constructor(
     private val viewModel by lazy { ViewModelProvider(context as AppCompatActivity)[ContactsViewModel::class.java] }
     private lateinit var observer: Observer<Result<List<Contact>>>
 
-    private val adapter = ContactsAdapter()
+    private val adapter = ContactsAdapter(::contactSelectedListener)
 
     init {
         inflate(context, R.layout.contact_list_view, this)
         setUpView()
         observeLiveData()
         loadContacts()
+    }
+
+    private fun contactSelectedListener(contact: Contact, selectedContactCount: Int) {
+        if (selectedContactCount == 0) {
+            //remove select all view
+        } else {
+            //show select all view
+        }
     }
 
     private fun setUpView() {
@@ -81,6 +89,10 @@ class ContactsListView @JvmOverloads constructor(
             show()
             text = error
         }
+    }
+
+    fun getSelectedContacts() {
+
     }
 
     fun loadContacts() {
