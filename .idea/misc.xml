@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/multipleContactPicker/app/src/main/res/layout/activity_main.xml" value="0.13333333333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="contactList/src/main/res/drawable/ic_circle.xml" value="0.262037037037037" />
         <entry key="contactList/src/main/res/drawable/ic_clear.xml" value="0.262037037037037" />
