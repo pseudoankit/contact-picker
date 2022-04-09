@@ -17,27 +17,26 @@ class ContactsViewModel : ViewModel() {
     private val _contactsLiveData: MutableLiveData<Result<List<Contact>>> = MutableLiveData()
     val contactsLiveData: LiveData<Result<List<Contact>>> = _contactsLiveData
 
-    fun fetchContactList(contentResolver: ContentResolver) = viewModelScope.launch(Dispatchers.Main) {
+    fun fetchContactList(cResolver: ContentResolver) = viewModelScope.launch(Dispatchers.Main) {
         _contactsLiveData.value = Result.Loading()
 
         val list = mutableListOf<Contact>()
 
         val uri = ContactsContract.Contacts.CONTENT_URI
         val sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
-        val cursor = contentResolver.query(
-            uri, null, null, null, sort
-        )
+        val cursor = cResolver.query(uri, null, null, null, sort)
 
         if (cursor == null || cursor.count == 0) {
             cursor?.close()
-            _contactsLiveData.value = Result.Failure("")
+            _contactsLiveData.value =
+                if (cursor == null) Result.Failure() else Result.Success(emptyList())
             return@launch
         }
 
         while (cursor.moveToNext()) {
             val id = cursor get ContactsContract.Contacts._ID
             val name = cursor get ContactsContract.Contacts.DISPLAY_NAME
-            val phoneCursor = contentResolver.query(
+            val phoneCursor = cResolver.query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
