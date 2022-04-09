@@ -8,17 +8,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import lostankit7.android.contactlist.base.Result
 import lostankit7.android.contactlist.entity.Contact
 import lostankit7.android.contactlist.util.get
+import lostankit7.android.contactlist.util.launchMain
 
 class ContactsViewModel : ViewModel() {
 
     private val _contactsLiveData: MutableLiveData<Result<List<Contact>>> = MutableLiveData()
     val contactsLiveData: LiveData<Result<List<Contact>>> = _contactsLiveData
 
-    fun fetchContactList(cResolver: ContentResolver) = viewModelScope.launch(Dispatchers.Main) {
-        _contactsLiveData.value = Result.Loading()
+    fun fetchContactList(cResolver: ContentResolver) = viewModelScope.launch(Dispatchers.IO) {
+        launchMain {
+            _contactsLiveData.value = Result.Loading()
+        }
 
         val list = mutableListOf<Contact>()
 
@@ -28,8 +32,10 @@ class ContactsViewModel : ViewModel() {
 
         if (cursor == null || cursor.count == 0) {
             cursor?.close()
-            _contactsLiveData.value =
-                if (cursor == null) Result.Failure() else Result.Success(emptyList())
+            launchMain {
+                _contactsLiveData.value =
+                    if (cursor == null) Result.Failure() else Result.Success(emptyList())
+            }
             return@launch
         }
 
@@ -55,7 +61,9 @@ class ContactsViewModel : ViewModel() {
             phoneCursor.close()
         }
         cursor.close()
-        _contactsLiveData.value = Result.Success(list)
+        launchMain {
+            _contactsLiveData.value = Result.Success(list)
+        }
     }
 
 }

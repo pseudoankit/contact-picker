@@ -77,6 +77,7 @@ class ContactsListView @JvmOverloads constructor(
             hideProgressBar()
             when (response) {
                 is Result.Success -> {
+                    hideErrorText()
                     if (response.data.isNullOrEmpty()) {
                         showErrorText(context.getString(R.string.error_no_contacts_found))
                     } else {
@@ -132,6 +133,10 @@ class ContactsListView @JvmOverloads constructor(
         }
     }
 
+    private fun hideErrorText() {
+        findViewById<TextView>(R.id.tvError).hide()
+    }
+
     fun progressBarColor(@ColorRes color: Int) {
         findViewById<ProgressBar>(R.id.progressBar).progressTintList =
             ColorStateList.valueOf(ContextCompat.getColor(context, color))
@@ -143,6 +148,7 @@ class ContactsListView @JvmOverloads constructor(
             showErrorText(context.getString(R.string.error_permission_not_found))
             return
         }
+        hideErrorText()
         viewModel.fetchContactList(context.contentResolver)
     }
 

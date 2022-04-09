@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this, arrayOf(android.Manifest.permission.READ_CONTACTS), REQUEST_CONTACT
             )
-        } else {
-            loadContacts()
         }
     }
 
