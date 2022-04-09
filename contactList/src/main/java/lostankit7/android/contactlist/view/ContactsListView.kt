@@ -35,7 +35,7 @@ class ContactsListView @JvmOverloads constructor(
     var contactSelectedListener: ((Contact, Int) -> Unit)? = null
 
     /** returns list of selected contacts */
-    private val selectedContacts get() = run { adapter.selectedContacts }
+    val selectedContactsList get() = run { adapter.selectedContacts }
 
     private val viewModel by lazy { ViewModelProvider(context as AppCompatActivity)[ContactsViewModel::class.java] }
     private lateinit var observer: Observer<Result<List<Contact>>>
@@ -49,15 +49,6 @@ class ContactsListView @JvmOverloads constructor(
         setUpView()
         observeLiveData()
         loadContacts()
-    }
-
-    private fun contactSelectedListener(contact: Contact) {
-        contactSelectedListener?.invoke(contact, adapter.selectedContactsCount)
-
-        if (adapter.selectedContactsCount > 0 && !headerView.isVisible())
-            headerView.show()
-        updateSelectAllImage(adapter.selectedContactsCount == adapter.itemCount)
-        updateContactSelectedText(adapter.selectedContactsCount)
     }
 
     private fun setUpView() {
@@ -79,14 +70,6 @@ class ContactsListView @JvmOverloads constructor(
             headerView.hide()
             updateContactSelectedText(0)
         }
-    }
-
-    private fun updateSelectAllImage(allItemsSelected: Boolean) {
-        findViewById<ImageView>(R.id.ivSelectAll).setImageDrawable(
-            ContextCompat.getDrawable(
-                context, if (allItemsSelected) R.drawable.ic_selected else R.drawable.ic_circle
-            )
-        )
     }
 
     private fun observeLiveData() {
@@ -111,6 +94,23 @@ class ContactsListView @JvmOverloads constructor(
         viewModel.contactsLiveData.observeForever(observer)
     }
 
+    private fun contactSelectedListener(contact: Contact) {
+        contactSelectedListener?.invoke(contact, adapter.selectedContactsCount)
+
+        if (adapter.selectedContactsCount > 0 && !headerView.isVisible())
+            headerView.show()
+        updateSelectAllImage(adapter.selectedContactsCount == adapter.itemCount)
+        updateContactSelectedText(adapter.selectedContactsCount)
+    }
+
+    private fun updateSelectAllImage(allItemsSelected: Boolean) {
+        findViewById<ImageView>(R.id.ivSelectAll).setImageDrawable(
+            ContextCompat.getDrawable(
+                context, if (allItemsSelected) R.drawable.ic_selected else R.drawable.ic_circle
+            )
+        )
+    }
+
     private fun updateContactSelectedText(count: Int) {
         findViewById<TextView>(R.id.tvSelectedCount).text = String.format(
             resources.getString(R.string.text_selected_contacts), count, adapter.itemCount
@@ -125,16 +125,16 @@ class ContactsListView @JvmOverloads constructor(
         findViewById<ProgressBar>(R.id.progressBar).hide()
     }
 
-    fun progressBarColor(@ColorRes color: Int) {
-        findViewById<ProgressBar>(R.id.progressBar).progressTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(context, color))
-    }
-
     private fun showErrorText(error: String) {
         findViewById<TextView>(R.id.tvError).apply {
             show()
             text = error
         }
+    }
+
+    fun progressBarColor(@ColorRes color: Int) {
+        findViewById<ProgressBar>(R.id.progressBar).progressTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(context, color))
     }
 
     /** loads contacts from data base */

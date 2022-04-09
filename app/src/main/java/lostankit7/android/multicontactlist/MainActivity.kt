@@ -7,7 +7,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import lostankit7.android.contactlist.adapter.ContactsAdapter
+import lostankit7.android.contactlist.util.hide
 import lostankit7.android.contactlist.view.ContactsListView
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +26,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //checkPermission()
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            val x = contactsView.selectedContactsList
+        }
+
+        checkPermission()
     }
 
     private fun loadContacts() {
